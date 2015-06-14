@@ -1,0 +1,2 @@
+rootProject.name = 'clickchat-api'
+include 'clickchat-domain'
