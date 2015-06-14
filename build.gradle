@@ -1,0 +1,65 @@
+subprojects {
+    apply plugin: 'groovy'
+    apply plugin: 'jacoco'
+    apply plugin: 'project-report'
+
+    sourceCompatibility = 1.7
+    [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+    ext {
+        springVersion = "4.1.5.RELEASE"
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        compile localGroovy()
+    }
+
+    jar {
+        manifest {
+            attributes(
+                'Author': 'Andrés Amado <acactown@gmail.com>',
+                'Created-By': 'ClickChat',
+                'Implementation-Version': "${version}",
+                'Built-By': System.getProperty('user.name'),
+                'Built-Date': new Date().format('yyyy-MM-dd HH:mm:ss')
+            )
+        }
+    }
+
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+
+    task wrapper(type: Wrapper) {
+        gradleVersion = '2.4'
+    }
+
+    jacoco {
+        toolVersion = "0.7.1.201405082137"
+        reportsDir = file("$buildDir/reports/jacoco")
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.enabled = true
+            html.enabled = true
+        }
+    }
+
+}
