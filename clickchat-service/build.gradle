@@ -1,0 +1,11 @@
+dependencies {
+    compile project(':clickchat-repository')
+}
+
+jar {
+    manifest {
+        attributes(
+            'Implementation-Title': 'ClickChat - Service'
+        )
+    }
+}
