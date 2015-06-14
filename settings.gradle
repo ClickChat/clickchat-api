@@ -1,2 +1,4 @@
 rootProject.name = 'clickchat-api'
-include 'clickchat-domain'
+include 'clickchat-commons',
+        'clickchat-domain',
+        'clickchat-repository'
