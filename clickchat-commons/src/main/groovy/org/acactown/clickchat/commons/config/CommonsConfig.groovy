@@ -1,4 +1,4 @@
-package org.acactown.clickchat.service.config
+package org.acactown.clickchat.commons.config
 
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
@@ -9,9 +9,7 @@ import org.springframework.context.annotation.Configuration
  */
 @Configuration
 @ComponentScan([
-    "org.acactown.clickchat.commons.config",
-    "org.acactown.clickchat.repository.config",
-    "org.acactown.clickchat.service"
+    "org.acactown.clickchat.commons"
 ])
-class ServiceConfig {
+class CommonsConfig {
 }

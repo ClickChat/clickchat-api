@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="LE" class="com.logentries.logback.LogentriesAppender">
+        <Debug>False</Debug>
+        <Token>cb6e4169-253d-4375-8e89-4813fc3af33b</Token>
+        <Ssl>False</Ssl>
+        <facility>USER</facility>
+        <layout>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <logger name="org.acactown.clickchat" level="DEBUG"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="LE"/>
+    </root>
+
+</configuration>
