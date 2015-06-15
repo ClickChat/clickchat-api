@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration
  */
 @Configuration
 @ComponentScan([
+    "org.acactown.clickchat.commons.config",
     "org.acactown.clickchat.repository.config",
     "org.acactown.clickchat.service"
 ])

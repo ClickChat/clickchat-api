@@ -2,4 +2,5 @@ rootProject.name = 'clickchat-api'
 include 'clickchat-commons',
         'clickchat-domain',
         'clickchat-repository',
-        'clickchat-service'
+        'clickchat-service',
+        'clickchat-rest-api'

@@ -1,0 +1,35 @@
+apply plugin: 'war'
+
+dependencies {
+    compile project(':clickchat-service')
+
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.5.1'
+    compile group: 'org.springframework', name: 'spring-web', version: springVersion
+    compile group: 'org.springframework', name: 'spring-webmvc', version: springVersion
+    compile group: 'com.mangofactory', name: 'swagger-springmvc', version: '0.9.5'
+    compile group: 'jstl', name: 'jstl', version: '1.2'
+
+    compile group: 'com.logentries', name: 'logentries-appender', version: '1.1.30'
+
+    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
+}
+
+war {
+    manifest {
+        attributes(
+            'Implementation-Title': 'ClickChat - REST-API',
+            'Author': 'Andrés Amado <acactown@gmail.com>',
+            'Implementation-Version': "${version}",
+            'Created-By': 'ClickChat',
+            'Built-By': System.getProperty('user.name'),
+            'Built-Date': new Date().format('yyyy-MM-dd HH:mm:ss')
+        )
+    }
+}
+
+task dist(type: Copy) {
+    from("${project.libsDir}")
+    into("${project.buildDir}")
+    rename("${project.name}-${version}.war", 'ROOT.war')
+}
+dist.dependsOn build
