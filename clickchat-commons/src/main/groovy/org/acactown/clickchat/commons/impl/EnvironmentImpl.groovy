@@ -1,8 +1,9 @@
-package org.acactown.clickchat.commons
+package org.acactown.clickchat.commons.impl
 
 import com.google.common.base.Optional
 import com.google.common.collect.Iterables
 import groovy.util.logging.Slf4j
+import org.acactown.clickchat.commons.Environment
 import org.springframework.stereotype.Service
 
 import static com.google.common.base.Optional.*
