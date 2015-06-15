@@ -1,0 +1,25 @@
+mongo:
+  image: mongo:3.0.3
+  command: mongod --smallfiles --quiet
+  volumes:
+    - ./docker-volumes/mongodb:/data/db
+  ports:
+    - "27017:27017"
+
+redis:
+  image: redis:3.0.2
+  ports:
+    - "6379:6379"
+
+api:
+  build: .
+  links:
+    - mongo
+    - redis
+  ports:
+    - "8080:8080"
+  volumes:
+    - ./docker-volumes/tomcat:/usr/local/tomcat/logs
+  environment:
+    - DATABASE_NAME=clickchat
+    - DATABASE_URI=mongodb://localhost:27017
