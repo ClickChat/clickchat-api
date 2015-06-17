@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.mangofactory.swagger.plugin.EnableSwagger
+import org.acactown.clickchat.api.interceptor.CORSInterceptor
+import org.acactown.clickchat.api.interceptor.ResponseHeadersInterceptor
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
@@ -26,8 +28,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include
 @EnableWebMvc
 @EnableSwagger
 @ComponentScan([
-        "org.acactown.clickchat.service.config",
-        "org.acactown.clickchat.api"
+    "org.acactown.clickchat.service.config",
+    "org.acactown.clickchat.api"
 ])
 @PropertySource("classpath:api.properties")
 class APIConfigurerAdapter extends WebMvcConfigurerAdapter {
@@ -38,8 +40,8 @@ class APIConfigurerAdapter extends WebMvcConfigurerAdapter {
     @Bean
     ViewResolver jspResolver() {
         return new InternalResourceViewResolver(
-                prefix: "/swagger/",
-                suffix: ".jsp"
+            prefix: "/swagger/",
+            suffix: ".jsp"
         )
     }
 
@@ -60,11 +62,11 @@ class APIConfigurerAdapter extends WebMvcConfigurerAdapter {
     @Override
     void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         final ObjectMapper mapper = new ObjectMapper(serializationInclusion: Include.NON_NULL)
-                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
         final MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter(
-                objectMapper: mapper
+            objectMapper: mapper
         )
 
         converters.add(converter)
@@ -94,4 +96,10 @@ class APIConfigurerAdapter extends WebMvcConfigurerAdapter {
         addViewController.setViewName("index")
     }
 
+    @Override
+    void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new CORSInterceptor())
+        registry.addInterceptor(new ResponseHeadersInterceptor())
+    }
+    
 }

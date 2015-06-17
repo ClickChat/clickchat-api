@@ -86,7 +86,7 @@ class ServletContainerSettingsEnsurance {
 
     private static String safeToString(Object object) {
         if (object) {
-            if (object.getClass().isAssignableFrom(String.class)) {
+            if (object.getClass().isAssignableFrom(String)) {
                 return (String) object
             } else {
                 return object.toString()

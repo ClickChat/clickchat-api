@@ -1,10 +1,12 @@
 package org.acactown.clickchat.api.config
 
+import org.acactown.clickchat.api.filter.CORSFilter
 import org.springframework.web.WebApplicationInitializer
 import org.springframework.web.context.ContextLoaderListener
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext
 import org.springframework.web.servlet.DispatcherServlet
 
+import javax.servlet.FilterRegistration
 import javax.servlet.ServletContext
 import javax.servlet.ServletException
 import javax.servlet.ServletRegistration
@@ -33,6 +35,9 @@ class APIInitializer implements WebApplicationInitializer {
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", dispatcherServlet)
         dispatcher.setLoadOnStartup(1)
         dispatcher.addMapping("/")
+        // Add CORS filter
+        FilterRegistration.Dynamic corsFilter = servletContext.addFilter("corsFilter", CORSFilter)
+        corsFilter.addMappingForUrlPatterns(null, false, "/*")
     }
 
 }
