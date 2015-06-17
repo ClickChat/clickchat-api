@@ -1,5 +1,10 @@
 dependencies {
+    compile project(':clickchat-cache')
     compile project(':clickchat-repository')
+    
+    compile group: 'org.springframework', name: 'spring-web', version: springVersion
+    compile group: 'org.springframework', name: 'spring-aop', version: springVersion
+    compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.7.4'
 }
 
 jar {

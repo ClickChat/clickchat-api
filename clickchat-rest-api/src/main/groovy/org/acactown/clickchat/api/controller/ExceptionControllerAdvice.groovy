@@ -24,6 +24,13 @@ class ExceptionControllerAdvice {
         return new ResponseEntity<>(new ErrorResource(error: e.getMessage(), code: 400), BAD_REQUEST)
     }
 
+    @ExceptionHandler(IllegalStateException)
+    ResponseEntity<ErrorResource> unauthorized(Exception e) {
+        log.error("Unauthorized error!", e)
+
+        return new ResponseEntity<>(new ErrorResource(error: e.getMessage(), code: 401), UNAUTHORIZED)
+    }
+
     @ExceptionHandler(ClassNotFoundException)
     ResponseEntity<ErrorResource> notFound(Exception e) {
         log.error("Not found!", e)
