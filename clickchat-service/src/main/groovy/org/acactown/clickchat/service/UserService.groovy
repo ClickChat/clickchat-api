@@ -1,6 +1,7 @@
 package org.acactown.clickchat.service
 
 import com.google.common.base.Optional
+import org.acactown.clickchat.commons.Token
 import org.acactown.clickchat.domain.User
 
 /**
@@ -9,6 +10,10 @@ import org.acactown.clickchat.domain.User
  */
 interface UserService {
 
-    Optional<User> authUser(String accessToken, String tokenType, String ip)
+    Optional<User> me(Token token)
+
+    Optional<User> login(Token token, String ip)
+
+    void logout(Token token)
 
 }

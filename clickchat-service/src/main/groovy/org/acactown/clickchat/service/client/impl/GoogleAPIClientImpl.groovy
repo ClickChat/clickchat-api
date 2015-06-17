@@ -3,6 +3,7 @@ package org.acactown.clickchat.service.client.impl
 import com.google.common.base.Optional
 import groovy.util.logging.Slf4j
 import org.acactown.clickchat.commons.Environment
+import org.acactown.clickchat.commons.Token
 import org.acactown.clickchat.service.client.GoogleAPIClient
 import org.acactown.clickchat.service.model.GoogleUserInfo
 import org.springframework.beans.factory.annotation.Autowired
@@ -40,9 +41,9 @@ class GoogleAPIClientImpl implements GoogleAPIClient {
     }
 
     @Override
-    Optional<GoogleUserInfo> getUserInfo(String accessToken, String tokenType) {
+    Optional<GoogleUserInfo> getUserInfo(Token token) {
         HttpHeaders headers = new HttpHeaders()
-        headers.add(AUTHORIZATION_HEADER, "${tokenType} ${accessToken}")
+        headers.add(AUTHORIZATION_HEADER, "${token.tokenType} ${token.accessToken}")
 
         HttpEntity<String> request = new HttpEntity<>(headers)
         ResponseEntity<GoogleUserInfo> userInfo = restTemplate.exchange(endpoint, GET, request, GoogleUserInfo)

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.EnableAspectJAutoProxy
 import org.springframework.http.client.ClientHttpRequestFactory
 import org.springframework.http.client.SimpleClientHttpRequestFactory
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
@@ -28,8 +29,10 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include
  */
 @Configuration
 @EnableAsync
+@EnableAspectJAutoProxy
 @ComponentScan([
     "org.acactown.clickchat.commons.config",
+    "org.acactown.clickchat.cache.config",
     "org.acactown.clickchat.repository.config",
     "org.acactown.clickchat.service"
 ])

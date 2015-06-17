@@ -1,6 +1,7 @@
 package org.acactown.clickchat.service.client
 
 import com.google.common.base.Optional
+import org.acactown.clickchat.commons.Token
 import org.acactown.clickchat.service.model.GoogleUserInfo
 
 /**
@@ -12,10 +13,9 @@ interface GoogleAPIClient {
     /**
      * Get User Profile Info from Google+
      *
-     * @param accessToken The access token
-     * @param tokenType The token type
+     * @param token The access token
      * @return The Optional{@link GoogleUserInfo} after consult Google's API
      */
-    Optional<GoogleUserInfo> getUserInfo(String accessToken, String tokenType)
+    Optional<GoogleUserInfo> getUserInfo(Token token)
 
 }
