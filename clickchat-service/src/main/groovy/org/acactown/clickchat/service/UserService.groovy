@@ -12,8 +12,12 @@ interface UserService {
 
     Optional<User> me(Token token)
 
+    Optional<User> meFromAuthorization(String authorization)
+
     Optional<User> login(Token token, String ip)
 
     void logout(Token token)
+
+    void logoutFromAuthorization(String authorization)
 
 }

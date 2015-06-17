@@ -37,7 +37,20 @@ class UserServiceImpl implements UserService {
 
     @Override
     Optional<User> me(Token token) {
-        return authRepository.findAuthUser(token)
+        Optional<User> user = authRepository.findAuthUser(token)
+        
+        return user
+    }
+
+    @Override
+    Optional<User> meFromAuthorization(String authorization) {
+        Optional<Token> token = getTokenFromAuthorization(authorization)
+        if (token.isPresent()) {
+
+            return me(token.get())
+        }
+
+        return Optional.absent()
     }
 
     @Override
@@ -100,4 +113,25 @@ class UserServiceImpl implements UserService {
         authRepository.deleteAuthUser(token)
     }
 
+    @Override
+    void logoutFromAuthorization(String authorization) {
+        Optional<Token> token = getTokenFromAuthorization(authorization)
+        if (token.isPresent()) {
+
+            logout(token.get())
+        }
+    }
+
+    private Optional<Token> getTokenFromAuthorization(String authorization) {
+        try {
+            String[] parts = authorization.split(" ", 2)
+
+            return Optional.of(new Token(tokenType: parts[0], accessToken: parts[1]))
+        } catch (Exception ex) {
+            log.error("Error getting Token from authorization!", ex)
+        }
+
+        return Optional.absent()
+    }
+    
 }
