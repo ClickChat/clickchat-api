@@ -1,6 +1,7 @@
 package org.acactown.clickchat.domain
 
 import groovy.transform.ToString
+import org.acactown.clickchat.commons.Token
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.Transient
 import org.springframework.data.mongodb.core.index.Indexed
@@ -31,6 +32,6 @@ class User {
     Timestamp updateAt
 
     @Transient
-    String token
+    Token token
 
 }
