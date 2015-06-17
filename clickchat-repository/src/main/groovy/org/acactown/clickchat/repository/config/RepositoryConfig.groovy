@@ -39,4 +39,5 @@ class RepositoryConfig extends AbstractMongoConfiguration {
     protected String getMappingBasePackage() {
         return "org.acactown.clickchat.domain"
     }
+    
 }

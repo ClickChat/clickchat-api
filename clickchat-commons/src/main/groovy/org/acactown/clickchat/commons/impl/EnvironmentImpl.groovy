@@ -49,7 +49,7 @@ class EnvironmentImpl implements Environment {
     Optional<String> getOptionalProperty(final String key) {
         log.debug("Getting [{}] property from Environment...", key)
         try {
-            String value = System.getenv(key)
+            String value = System.getenv(key) ?: System.getProperty(key)
             if (!isNullOrEmpty(value)) {
                 return of(value)
             }
