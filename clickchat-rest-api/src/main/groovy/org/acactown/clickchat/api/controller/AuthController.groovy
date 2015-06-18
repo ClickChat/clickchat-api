@@ -74,13 +74,13 @@ class AuthController {
     }
 
     @RequestMapping(value = '/logout', method = POST, produces = APPLICATION_JSON)
-    @ApiOperation(value = "Make the logout process", notes = "Log out the specified user.", response = ResponseEntity, produces = APPLICATION_JSON)
-    ResponseEntity logout(
+    @ApiOperation(value = "Make the logout process", notes = "Log out the specified user.", response = String, produces = APPLICATION_JSON)
+    ResponseEntity<String> logout(
         @ApiParam(value = "The auth header", required = true) @RequestHeader(value = "Authorization", required = true) String authorization
     ) {
         userService.logoutFromAuthorization(authorization)
 
-        return new ResponseEntity<>(OK)
+        return new ResponseEntity<>("OK", OK)
     }
 
 }

@@ -10,6 +10,7 @@ class UserDetailResource {
 
     Token token
 
+    String id
     String name
     String email
     String thumbnail

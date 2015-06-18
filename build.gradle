@@ -7,7 +7,7 @@ subprojects {
     [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
     ext {
-        springVersion = "4.1.5.RELEASE"
+        springVersion = "4.1.1.RELEASE"
     }
 
     repositories {
