@@ -96,10 +96,13 @@ class APIConfigurerAdapter extends WebMvcConfigurerAdapter {
         addViewController.setViewName("index")
     }
 
+    /**
+     * Adding CORs interceptors
+     */
     @Override
     void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new CORSInterceptor())
         registry.addInterceptor(new ResponseHeadersInterceptor())
     }
-    
+
 }

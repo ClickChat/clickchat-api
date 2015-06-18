@@ -15,18 +15,10 @@ import javax.validation.constraints.NotNull
  */
 @Document(collection = "users")
 @ToString(includePackage = false, includeNames = true)
-class User {
-
-    @Id
-    String id
+class User extends Author {
+    
     @Indexed(unique = true)
     String externalId
-    @NotNull
-    String name
-    @NotNull
-    @Indexed(unique = true)
-    String email
-    String thumbnail
     @NotNull
     Timestamp createdAt
     Timestamp updateAt

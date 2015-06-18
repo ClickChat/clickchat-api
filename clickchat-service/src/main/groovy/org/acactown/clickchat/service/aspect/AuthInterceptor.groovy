@@ -26,7 +26,7 @@ class AuthInterceptor {
         this.authRepository = authRepository
     }
 
-    @Around("execution(* org.acactown.clickchat.service.UserService.*(..))")
+    @Around("execution(* org.acactown.clickchat.service.UserService.login(..))")
     private Object afterReturning(ProceedingJoinPoint joinPoint) {
         Object result = joinPoint.proceed()
         if (result) {
