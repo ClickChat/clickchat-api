@@ -21,21 +21,26 @@ class APIInitializer implements WebApplicationInitializer {
 
     @Override
     void onStartup(ServletContext servletContext) throws ServletException {
-        settingsInsurance.safelyVerifyServlet()
+        //settingsInsurance.safelyVerifyServlet()
 
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext()
         rootContext.register(APIConfig)
+        
         // Manage the lifecycle of the root application context
         servletContext.addListener(new ContextLoaderListener(rootContext))
+        
         // Create the dispatcher servlet's Spring application context
         AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext()
         dispatcherContext.register(APIConfigurerAdapter)
+        
         // Register and map the dispatcher servlet
         DispatcherServlet dispatcherServlet = new DispatcherServlet(dispatcherContext)
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", dispatcherServlet)
+        dispatcher.setAsyncSupported(true)
         dispatcher.setLoadOnStartup(1)
         dispatcher.addMapping("/")
-        // Add CORS filter
+        
+        // Add CORs filter
         FilterRegistration.Dynamic corsFilter = servletContext.addFilter("corsFilter", CORSFilter)
         corsFilter.addMappingForUrlPatterns(null, false, "/*")
     }

@@ -67,7 +67,7 @@ class AuthUserRepositoryImpl implements AuthUserRepository {
 
     @Override
     void deleteAuthUser(Token token) {
-        cache.set(token.accessToken, null)
+        cache.set(token.accessToken, "")
     }
 
 }
