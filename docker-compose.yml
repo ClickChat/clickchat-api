@@ -23,3 +23,6 @@ api:
   environment:
     - DATABASE_NAME=clickchat
     - DATABASE_URI=mongodb://localhost:27017
+    - DATABASE_URI=mongodb://localhost:27017
+    - REDIS_HOST=localhost
+    - REDIS_PORT=6379
