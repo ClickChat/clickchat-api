@@ -1,4 +1,4 @@
-package org.acactown.clickchat.commons
+package org.acactown.clickchat.domain.model
 
 /**
  * @author Andrés Amado

@@ -5,8 +5,8 @@ import com.wordnik.swagger.annotations.Api
 import com.wordnik.swagger.annotations.ApiOperation
 import com.wordnik.swagger.annotations.ApiParam
 import groovy.util.logging.Slf4j
-import org.acactown.clickchat.api.service.UserConverter
-import org.acactown.clickchat.commons.Token
+import org.acactown.clickchat.api.service.UserDetailResourceConverter
+import org.acactown.clickchat.domain.model.Token
 import org.acactown.clickchat.api.resource.UserDetailResource
 import org.acactown.clickchat.domain.User
 import org.acactown.clickchat.service.UserService
@@ -32,10 +32,10 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET
 class AuthController {
 
     private final UserService userService
-    private final UserConverter converter
+    private final UserDetailResourceConverter converter
 
     @Autowired
-    AuthController(UserService userService, UserConverter converter) {
+    AuthController(UserService userService, UserDetailResourceConverter converter) {
         this.userService = userService
         this.converter = converter
     }
@@ -50,7 +50,7 @@ class AuthController {
 
         Optional<User> user = userService.login(token, ip)
         if (user.isPresent()) {
-            UserDetailResource userDetail = converter.toResource(user.get())
+            UserDetailResource userDetail = converter.fromUser(user.get())
 
             return new ResponseEntity<>(userDetail, OK)
         }
@@ -65,7 +65,7 @@ class AuthController {
     ) {
         Optional<User> user = userService.meFromAuthorization(authorization)
         if (user.isPresent()) {
-            UserDetailResource userDetail = converter.toResource(user.get())
+            UserDetailResource userDetail = converter.fromUser(user.get())
 
             return new ResponseEntity<>(userDetail, OK)
         }

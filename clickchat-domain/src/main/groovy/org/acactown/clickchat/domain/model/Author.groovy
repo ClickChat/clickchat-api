@@ -1,4 +1,4 @@
-package org.acactown.clickchat.domain
+package org.acactown.clickchat.domain.model
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed

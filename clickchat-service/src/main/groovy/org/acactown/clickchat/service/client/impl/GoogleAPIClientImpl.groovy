@@ -3,7 +3,7 @@ package org.acactown.clickchat.service.client.impl
 import com.google.common.base.Optional
 import groovy.util.logging.Slf4j
 import org.acactown.clickchat.commons.Environment
-import org.acactown.clickchat.commons.Token
+import org.acactown.clickchat.domain.model.Token
 import org.acactown.clickchat.service.client.GoogleAPIClient
 import org.acactown.clickchat.service.model.GoogleUserInfo
 import org.springframework.beans.factory.annotation.Autowired

@@ -1,6 +1,6 @@
 package org.acactown.clickchat.api.resource
 
-import org.acactown.clickchat.domain.Author
+import org.acactown.clickchat.domain.model.Author
 
 /**
  * @author Andrés Amado

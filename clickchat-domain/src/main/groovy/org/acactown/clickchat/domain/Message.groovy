@@ -1,5 +1,6 @@
 package org.acactown.clickchat.domain
 
+import org.acactown.clickchat.domain.model.Timestamp
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.DBRef

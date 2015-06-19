@@ -1,7 +1,7 @@
 package org.acactown.clickchat.service.client
 
 import com.google.common.base.Optional
-import org.acactown.clickchat.commons.Token
+import org.acactown.clickchat.domain.model.Token
 import org.acactown.clickchat.service.model.GoogleUserInfo
 
 /**

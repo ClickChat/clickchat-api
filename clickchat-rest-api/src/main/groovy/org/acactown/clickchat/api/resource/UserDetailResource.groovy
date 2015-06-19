@@ -1,6 +1,6 @@
 package org.acactown.clickchat.api.resource
 
-import org.acactown.clickchat.commons.Token
+import org.acactown.clickchat.domain.model.Token
 
 /**
  * @author Andrés Amado
