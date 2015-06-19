@@ -2,8 +2,8 @@ package org.acactown.clickchat.service.impl
 
 import com.google.common.base.Optional
 import org.acactown.clickchat.cache.AuthUserRepository
-import org.acactown.clickchat.commons.Token
-import org.acactown.clickchat.domain.Timestamp
+import org.acactown.clickchat.domain.model.Token
+import org.acactown.clickchat.domain.model.Timestamp
 import org.acactown.clickchat.service.aspect.AuthIntercepted
 
 import static com.google.common.base.Strings.*
@@ -122,7 +122,7 @@ class UserServiceImpl implements UserService {
         }
     }
 
-    private Optional<Token> getTokenFromAuthorization(String authorization) {
+    private static Optional<Token> getTokenFromAuthorization(String authorization) {
         try {
             String[] parts = authorization.split(" ", 2)
 

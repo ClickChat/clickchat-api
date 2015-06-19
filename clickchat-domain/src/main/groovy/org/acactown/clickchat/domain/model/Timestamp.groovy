@@ -1,4 +1,4 @@
-package org.acactown.clickchat.domain
+package org.acactown.clickchat.domain.model
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString

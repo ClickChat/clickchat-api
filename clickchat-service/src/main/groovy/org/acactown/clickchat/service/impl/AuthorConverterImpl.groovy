@@ -1,22 +1,22 @@
-package org.acactown.clickchat.api.service.impl
+package org.acactown.clickchat.service.impl
 
 import groovy.util.logging.Slf4j
-import org.acactown.clickchat.api.resource.AuthorResource
-import org.acactown.clickchat.api.service.AuthorConverter
 import org.acactown.clickchat.domain.User
+import org.acactown.clickchat.domain.model.Author
+import org.acactown.clickchat.service.AuthorConverter
 import org.springframework.stereotype.Service
 
 /**
  * @author Andrés Amado
- * @since 2015-06-18
+ * @since 2015-06-19
  */
 @Slf4j
 @Service
 class AuthorConverterImpl implements AuthorConverter {
 
     @Override
-    AuthorResource toResource(User user) {
-        return new AuthorResource(
+    Author toAuthor(User user) {
+        return new Author(
             id: user.id,
             name: user.name,
             email: user.email,

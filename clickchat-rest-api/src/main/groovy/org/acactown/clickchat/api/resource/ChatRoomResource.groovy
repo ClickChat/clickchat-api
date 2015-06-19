@@ -1,11 +1,11 @@
 package org.acactown.clickchat.api.resource
-
 /**
  * @author Andrés Amado
- * @since 2015-06-18
+ * @since 2015-06-19
  */
-class AuthorsResource {
+class ChatRoomResource {
 
     List<AuthorResource> authors
-
+    List<PreviousMessageResource> messages
+    
 }

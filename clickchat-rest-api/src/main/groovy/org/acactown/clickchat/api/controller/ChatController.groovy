@@ -7,8 +7,13 @@ import com.wordnik.swagger.annotations.ApiOperation
 import com.wordnik.swagger.annotations.ApiParam
 import groovy.util.logging.Slf4j
 import org.acactown.clickchat.api.resource.*
-import org.acactown.clickchat.api.service.AuthorConverter
+import org.acactown.clickchat.api.service.AuthorResourceConverter
+import org.acactown.clickchat.api.service.ChatRoomResourceConverter
+import org.acactown.clickchat.domain.Message
 import org.acactown.clickchat.domain.User
+import org.acactown.clickchat.domain.model.ChatRoom
+import org.acactown.clickchat.service.ChatService
+import org.acactown.clickchat.service.MessageService
 import org.acactown.clickchat.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
@@ -18,8 +23,6 @@ import org.springframework.messaging.handler.annotation.SendTo
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
-
-import java.util.concurrent.ConcurrentHashMap
 
 import static org.acactown.clickchat.service.util.RestUtil.APPLICATION_JSON
 import static org.springframework.http.HttpStatus.OK
@@ -36,19 +39,22 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST
 class ChatController {
 
     private final ObjectMapper mapper
-    private final UserService service
-    private final AuthorConverter converter
-
-    //TODO: Persist on REDIS!
-    private final Map<String, AuthorResource> authorsCache
+    private final UserService userService
+    private final MessageService messageService
+    private final ChatService chatService
+    private final AuthorResourceConverter authorConverter
+    private final ChatRoomResourceConverter chatConverter
 
     @Autowired
-    ChatController(UserService service, AuthorConverter converter, @Qualifier("objectMapper") ObjectMapper mapper) {
-        this.service = service
+    ChatController(UserService userService, MessageService messageService, ChatService chatService,
+                   AuthorResourceConverter authorConverter, ChatRoomResourceConverter chatConverter,
+                   @Qualifier("objectMapper") ObjectMapper mapper) {
+        this.userService = userService
+        this.messageService = messageService
+        this.chatService = chatService
         this.mapper = mapper
-        this.converter = converter
-
-        authorsCache = new ConcurrentHashMap<>()
+        this.authorConverter = authorConverter
+        this.chatConverter = chatConverter
     }
 
     @MessageMapping("/chat")
@@ -56,16 +62,28 @@ class ChatController {
     public OutputResource sendOutput(InputResource input) {
         String data = input.data
         InputType type = input.type
+        Date now = new Date()
+        Integer id = input.id
 
-        OutputResource output = new OutputResource(id: input.id, time: new Date(), type: type)
+        OutputResource output = new OutputResource(id: id, time: now, type: type)
         switch (type) {
             case InputType.MESSAGE:
                 InputMessageResource inputMessage = mapper.readValue(data, InputMessageResource)
-                Optional<User> user = service.meFromAuthorization(inputMessage.token)
-                if (user.isPresent()) {
+                Optional<User> authUser = userService.meFromAuthorization(inputMessage.token)
+                if (authUser.isPresent()) {
+                    User user = authUser.get()
+                    String content = inputMessage.message
+                    //TODO: Get IP!
+                    String ip = "127.0.0.1"
+
+                    Optional<Message> message = messageService.persist(user, content, now, ip)
+                    if (message.isPresent()) {
+                        chatService.addMessage(message.get(), id)
+                    }
+
                     OutputMessageResource outputMessage = new OutputMessageResource(
-                        author: user.get().id,
-                        message: inputMessage.message
+                        author: user.id,
+                        message: content
                     )
 
                     output.data = mapper.writeValueAsString(outputMessage)
@@ -75,9 +93,9 @@ class ChatController {
             case InputType.LEAVE:
             case InputType.JOIN:
                 EventResource event = mapper.readValue(data, EventResource)
-                Optional<User> user = service.meFromAuthorization(event.token)
+                Optional<User> user = userService.meFromAuthorization(event.token)
                 if (user.isPresent()) {
-                    AuthorResource author = converter.toResource(user.get())
+                    AuthorResource author = authorConverter.fromUser(user.get())
 
                     output.data = mapper.writeValueAsString(author)
                 }
@@ -89,25 +107,15 @@ class ChatController {
     }
 
     @RequestMapping(value = '/join', method = GET, produces = APPLICATION_JSON)
-    @ApiOperation(value = "Join user to chat", notes = "Get all users in chat", response = AuthorsResource, produces = APPLICATION_JSON)
-    ResponseEntity<AuthorsResource> join(
+    @ApiOperation(value = "Join user to chat", notes = "Get a ChatRoom info", response = ChatRoomResource, produces = APPLICATION_JSON)
+    ResponseEntity<ChatRoomResource> join(
         @ApiParam(value = "The auth header", required = true) @RequestHeader(value = "Authorization", required = true) String authorization
     ) {
-        Optional<User> user = service.meFromAuthorization(authorization)
+        Optional<User> user = userService.meFromAuthorization(authorization)
         if (user.isPresent()) {
-            AuthorResource author = converter.toResource(user.get())
-            String authorId = author.id
-            List<AuthorResource> authors = new ArrayList<>(authorsCache.size())
-            for (AuthorResource cachedAuthor : authorsCache.values()) {
-                String cachedAuthorId = cachedAuthor.id
-                if (authorId != cachedAuthorId) {
-                    authors.add(cachedAuthor)
-                }
-            }
+            ChatRoom room = chatService.join(user.get())
 
-            authorsCache.put(authorId, author)
-
-            return new ResponseEntity<>(new AuthorsResource(authors: authors), OK)
+            return new ResponseEntity<>(chatConverter.fromChatRoom(room), OK)
         }
 
         throw new IllegalStateException("Unauthorized!")
@@ -118,11 +126,9 @@ class ChatController {
     ResponseEntity<String> leave(
         @ApiParam(value = "The auth header", required = true) @RequestHeader(value = "Authorization", required = true) String authorization
     ) {
-        Optional<User> user = service.meFromAuthorization(authorization)
+        Optional<User> user = userService.meFromAuthorization(authorization)
         if (user.isPresent()) {
-            String authorId = user.get().id
-
-            authorsCache.remove(authorId)
+            chatService.leave(user.get())
 
             return new ResponseEntity<>("OK", OK)
         }
