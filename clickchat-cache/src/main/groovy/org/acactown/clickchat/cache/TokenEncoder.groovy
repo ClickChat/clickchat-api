@@ -10,6 +10,11 @@ import org.acactown.clickchat.domain.User
  */
 interface TokenEncoder {
 
+    /**
+     * A simple and easy way to generate tokens
+     * @param user The user input to generate base token
+     * @return A Optional {@link Token} related to a given {@link User}
+     */
     Optional<Token> generateToken(User user)
 
 }

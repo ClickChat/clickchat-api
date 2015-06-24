@@ -10,7 +10,12 @@ import org.springframework.stereotype.Repository
  */
 @Repository
 interface UserRepository extends MongoRepository<User, String> {
-    
+
+    /**
+     * Find a {@link User} from given external ID
+     * @param externalId The external ID
+     * @return a {@link User} related to the given external ID
+     */
     User findByExternalId(String externalId)
-    
+
 }

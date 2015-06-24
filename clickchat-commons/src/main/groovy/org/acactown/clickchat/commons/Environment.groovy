@@ -27,7 +27,7 @@ interface Environment {
      * Checks if a key is equals to <tt>true</tt>
      * if it's not present will return the <tt>defaultValue</tt>
      *
-     * @param feature      The feature name
+     * @param feature The feature name
      * @param defaultValue The  default value
      * @return <tt>true</tt> only if the environment has a property and the value is <tt>true</tt>,
      * otherwise: returns the <tt>defaultValue</tt>
@@ -57,7 +57,7 @@ interface Environment {
      * Get the property value according to Environment,
      * if it's not present will return the <tt>defaultValue</tt>
      *
-     * @param key          The property name
+     * @param key The property name
      * @param defaultValue The default value
      * @return the property value according to Environment
      * @see Environment#getProperty(String)

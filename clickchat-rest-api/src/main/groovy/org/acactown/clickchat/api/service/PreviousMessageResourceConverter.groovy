@@ -9,6 +9,11 @@ import org.acactown.clickchat.domain.model.PreviousMessage
  */
 interface PreviousMessageResourceConverter {
 
+    /**
+     * Convert from {@link PreviousMessage} to {@link PreviousMessageResource}
+     * @param message The message
+     * @return The {@link PreviousMessageResource} from a given {@link PreviousMessage}
+     */
     PreviousMessageResource fromPreviousMessage(PreviousMessage message)
 
 }

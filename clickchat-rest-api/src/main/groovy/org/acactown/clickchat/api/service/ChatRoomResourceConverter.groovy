@@ -9,6 +9,11 @@ import org.acactown.clickchat.domain.model.ChatRoom
  */
 interface ChatRoomResourceConverter {
 
+    /**
+     * Convert from {@link ChatRoom} to {@link ChatRoomResource}
+     * @param room The room
+     * @return The {@link ChatRoomResource} from a given {@link ChatRoom}
+     */
     ChatRoomResource fromChatRoom(ChatRoom room)
 
 }
