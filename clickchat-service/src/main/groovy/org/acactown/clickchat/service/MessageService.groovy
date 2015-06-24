@@ -10,6 +10,14 @@ import org.acactown.clickchat.domain.User
  */
 interface MessageService {
 
+    /**
+     * Persis a {@link Message} from create attributes
+     * @param user The user
+     * @param content The content
+     * @param date The date
+     * @param ip The ip
+     * @return A Optional persisted {@link Message} from a given attributes
+     */
     Optional<Message> persist(User user, String content, Date date, String ip)
-    
+
 }

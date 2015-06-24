@@ -59,7 +59,7 @@ class ServiceConfig implements AsyncConfigurer {
 
     @Override
     AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return new SimpleAsyncUncaughtExceptionHandler();
+        return new SimpleAsyncUncaughtExceptionHandler()
     }
 
     @Bean(name = "objectMapper")
@@ -87,7 +87,7 @@ class ServiceConfig implements AsyncConfigurer {
     }
 
     @Bean(name = "googleRestTemplate")
-    public RestTemplate googleRestTemplate(
+    RestTemplate googleRestTemplate(
         @Qualifier("googleRequestFactory") ClientHttpRequestFactory requestFactory,
         @Qualifier("messageConverter") MappingJackson2HttpMessageConverter converter) {
 

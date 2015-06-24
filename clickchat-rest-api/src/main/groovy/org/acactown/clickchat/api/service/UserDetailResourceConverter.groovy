@@ -9,6 +9,11 @@ import org.acactown.clickchat.domain.User
  */
 interface UserDetailResourceConverter {
 
+    /**
+     * Convert from {@link User} to {@link UserDetailResource}
+     * @param user The user
+     * @return The {@link UserDetailResource} from a given {@link User}
+     */
     UserDetailResource fromUser(User user)
 
 }
